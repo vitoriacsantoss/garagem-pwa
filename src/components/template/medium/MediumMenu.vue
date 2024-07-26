@@ -5,9 +5,7 @@ const storeApp = useAppStore();
 </script>
 
 <template>
-    <header>
-        <img src="/logo.png" alt="Logo" width="70px" class="logo">
-
+    <div class="menu">
         <nav>
             <div class="link" v-for="link in storeApp.links" :key="link.path">
                 <router-link to="/">
@@ -15,33 +13,27 @@ const storeApp = useAppStore();
                 </router-link>
             </div>
         </nav>
-
-        <span class="user">
-            <button class="loginButton">
-                Entrar
-            </button>
-        </span>
-    </header>
+    </div>
 </template>
 
 <style scoped>
-    header {
-        display: flex;
-        height: 80px;
-        align-items: center;
-        justify-content: center;
-        padding: 0 10px;
-        position: relative;
-    }
-
-    .logo {
+    .menu {
         position: absolute;
-        left: 20px;
+        top: 80px;
+        left: 0;
+        width: 100%;
+        height: 50px;
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        z-index: 1;
+        display: flex;
+        align-items: center;
     }
 
     nav {
         display: flex;
+        align-items: center;
         justify-content: space-around;
+        width: 100%;
     }
 
     .link {
@@ -58,20 +50,5 @@ const storeApp = useAppStore();
 
     .link:hover {
         background-color: #cccccc75;
-    }
-
-    .user {
-        position: absolute;
-        right: 20px;
-    }
-
-    .loginButton {
-        padding: 5px 20px;
-        border-radius: 5px;
-        background-color: #ccc;
-        border: none;
-        text-transform: uppercase;
-        font-weight: bold;
-        cursor: pointer;
     }
 </style>
