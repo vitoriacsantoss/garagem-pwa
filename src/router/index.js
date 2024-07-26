@@ -15,6 +15,26 @@ const router = createRouter({
           name: 'Home',
           component: HomeView,
         },
+        {
+          path: '/acessorios',
+          name: 'acessorios',
+          component: () => import('@/views/Acessorios.vue')
+        },
+        {
+          path: '/categorias',
+          name: 'categorias',
+          component: () => import('@/views/Categorias.vue')
+        },
+        {
+          path: '/cores',
+          name: 'cores',
+          component: () => import('@/views/Cores.vue')
+        },
+        {
+          path: '/marcas',
+          name: 'marcas',
+          component: () => import('@/views/Marcas.vue')
+        }
       ],
     },
   ]
