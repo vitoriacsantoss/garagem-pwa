@@ -1,4 +1,33 @@
-<script setup></script>
+<script setup>
+import { onMounted, ref } from 'vue'
+import { useGaragemStore } from '@/stores/garagem'
+
+const storeGaragem = useGaragemStore()
+
+const defaultCor = {
+  id: null,
+  nome: null
+}
+const cor = ref({...defaultCor})
+
+async function salvar() {
+  if (cor.value.id) {
+    await storeGaragem.editarCor(cor.value);
+  } else {
+    await storeGaragem.adicionarCor(cor.value)
+  }
+
+  cor.value = {...defaultCor}
+}
+
+async function excluir(id) {
+  await storeGaragem.removerCor(id)
+}
+
+onMounted(async () => {
+  await storeGaragem.buscarCores()
+})
+</script>
 
 <template>
   <section>
@@ -7,12 +36,20 @@
     <div class="form">
       <div class="input">
         <p>Nome</p>
-        <input type="text" />
+        <input type="text" v-model="cor.nome" />
       </div>
 
-      <button class="salvarButton">
-        Salvar
-      </button>
+      <button class="salvarButton" @click="salvar">Salvar</button>
+    </div>
+
+    <div class="list">
+      <div class="cor" v-for="item in storeGaragem.cores" :key="item.id">
+        <p @click="cor = item">({{ item.id }}) - {{ item.nome }}</p>
+
+        <span @click="excluir(item.id)">
+          <i class="mdi mdi-close"></i>
+        </span>
+      </div>
     </div>
   </section>
 </template>
@@ -54,13 +91,40 @@ section {
 }
 
 .salvarButton {
-    background-color: #007BFF;
-    color: white;              
-    border: none;             
-    border-radius: 4px;      
-    padding: 10px 20px;        
-    font-size: 16px;         
-    cursor: pointer;      
-    display: inline-block;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cor {
+  display: flex;
+  gap: 10px;
+  background-color: #007bff50;
+  padding: 5px 10px;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.cor p {
+  min-width: 140px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+}
+
+.cor span {
+  cursor: pointer;
 }
 </style>
