@@ -26,6 +26,14 @@ async function excluir(id) {
   await storeGaragem.removerModelo(id)
 }
 
+async function editar(item) {
+  modelo.value = {
+    ...item,
+    marca: item.marca.id,
+    categoria: item.categoria.id
+  }
+}
+
 onMounted(async () => {
   await storeGaragem.buscarModelos()
   await storeGaragem.buscarCategorias()
@@ -57,7 +65,11 @@ onMounted(async () => {
         <p>Categoria</p>
 
         <select v-model="modelo.categoria">
-          <option v-for="categoria in storeGaragem.categorias" :key="categoria.id" :value="categoria.id">
+          <option
+            v-for="categoria in storeGaragem.categorias"
+            :key="categoria.id"
+            :value="categoria.id"
+          >
             {{ categoria.descricao }}
           </option>
         </select>
@@ -68,7 +80,7 @@ onMounted(async () => {
 
     <div class="list">
       <div class="modelo" v-for="item in storeGaragem.modelos" :key="item.id">
-        <p @click="modelo = item">({{ item.id }}) - {{ item.nome }} - {{ item.marca.nome }}</p>
+        <p @click="editar(item)">({{ item.id }}) - {{ item.nome }} - {{ item.marca.nome }}</p>
 
         <span @click="excluir(item.id)">
           <i class="mdi mdi-close"></i>

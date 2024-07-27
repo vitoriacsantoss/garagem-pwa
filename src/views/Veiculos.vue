@@ -19,7 +19,7 @@ const defaultVeiculo = {
 const veiculo = ref({...defaultVeiculo})
 
 async function salvar() {
-  veiculo.value.image_attachment_key = await uploaderStore.uploadImage(file.value);
+  veiculo.value.foto_veiculo_attachment_key = await uploaderStore.uploadImage(file.value);
   if (veiculo.value.id) {
     await storeGaragem.editarVeiculo(veiculo.value);
   } else {
@@ -31,6 +31,15 @@ async function salvar() {
 
 async function excluir(id) {
   await storeGaragem.removerVeiculo(id)
+}
+
+async function editar(item) {
+  veiculo.value = {
+    ...item,
+    modelo: item.modelo.id,
+    cor: item.cor.id,
+    acessorios: item.acessorios.map(i => i.id)
+  }
 }
 
 const uploadImage = (e) => {
@@ -52,7 +61,7 @@ onMounted(async () => {
     <div class="form">
       <div class="input">
         <p>Ano</p>
-        <input type="number" v-model="veiculo.nome" />
+        <input type="number" v-model="veiculo.ano" />
       </div>
 
       <div class="input">
@@ -85,7 +94,7 @@ onMounted(async () => {
           Acessorios
         </p>
 
-        <select v-model="veiculo.acessorios">
+        <select v-model="veiculo.acessorios" multiple>
           <option v-for="acessorio in storeGaragem.acessorios" :key="acessorio.id" :value="acessorio.id">{{ acessorio.descricao }}</option>
         </select>
       </div>
@@ -100,7 +109,7 @@ onMounted(async () => {
 
     <div class="list">
       <div class="veiculo" v-for="item in storeGaragem.veiculos" :key="item.id">
-        <p @click="veiculo = item">({{ item.id }}) - {{ item.modelo.nome }} - {{ item.preco }}</p>
+        <p @click="editar(item)">({{ item.id }}) - {{ item.modelo.nome }} - {{ item.preco }}</p>
 
         <span @click="excluir(item.id)">
           <i class="mdi mdi-close"></i>
