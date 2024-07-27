@@ -1,6 +1,8 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 
+import acessoriosService from '@/services/acessorios'
+
 export const useGaragemStore = defineStore('garagem', () => {
   const veiculos = ref([])
   const modelos = ref([])
@@ -30,15 +32,23 @@ export const useGaragemStore = defineStore('garagem', () => {
   }
 
   async function buscarAcessorios() {
+    const data = await acessoriosService.buscarAcessorios()
+    acessorios.value = data;
   }
 
   async function editarAcessorio(acessorio) {
+    await acessoriosService.editarAcessorio(acessorio);
+    await buscarAcessorios() 
   }
 
   async function adicionarAcessorio(acessorio) {
+    await acessoriosService.adicionarAcessorio(acessorio);
+    await buscarAcessorios()
   }
 
   async function removerAcessorio(id) {
+    await acessoriosService.removerAcesserio(id);
+    await buscarAcessorios()
   }
 
   async function buscarCategorias() {
