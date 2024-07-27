@@ -10,7 +10,7 @@ const storeApp = useAppStore();
 
         <nav>
             <div class="link" v-for="link in storeApp.links" :key="link.path">
-                <router-link to="/">
+                <router-link :to="link.path">
                     {{ link.name }}
                 </router-link>
             </div>
