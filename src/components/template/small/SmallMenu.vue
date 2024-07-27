@@ -27,6 +27,7 @@ const storeApp = useAppStore();
         z-index: 1;
         display: flex;
         align-items: center;
+        background-color: white;
     }
 
     nav {

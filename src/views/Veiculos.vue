@@ -113,11 +113,12 @@ onMounted(async () => {
     <div class="list">
       <div class="veiculo" v-for="item in storeGaragem.veiculos" :key="item.id">
         <img :src="item?.foto_veiculo?.url" alt="" width="200px">
-        <p @click="editar(item)">({{ item.id }}) - {{ item.modelo.nome }} - {{ item.preco }}</p>
+        <p @click="editar(item)">({{ item.id }}) - {{ item.modelo.nome }} - {{ item.cor.nome }}</p>
+        <p>Ano: {{ item.ano }} - R$ {{ item.preco }}</p>
 
-        <span @click="excluir(item.id)">
-          <i class="mdi mdi-close"></i>
-        </span>
+        <button @click="excluir(item.id)" class="deletarButton">
+          Excluir
+        </button>
       </div>
     </div>
   </section>
@@ -173,17 +174,21 @@ section {
 
 .list {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
   gap: 10px;
+  padding: 20px;
 }
 
 .veiculo {
   display: flex;
+  flex-direction: column;
   gap: 10px;
-  background-color: #007bff50;
+  background-color: transparent;
   padding: 5px 10px;
   border-radius: 5px;
   overflow: hidden;
+  align-items: center;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
 .veiculo p {
@@ -195,6 +200,17 @@ section {
 }
 
 .veiculo span {
+  cursor: pointer;
+}
+
+.deletarButton {
+  background-color: red;
+  border: none;
+  color: white;
+  text-transform: uppercase;
+  margin: 5px;
+  padding: 5px 10px;
+  border-radius: 5px;
   cursor: pointer;
 }
 </style>
