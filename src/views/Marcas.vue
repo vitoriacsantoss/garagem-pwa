@@ -1,4 +1,34 @@
-<script setup></script>
+<script setup>
+import { onMounted, ref } from 'vue'
+import { useGaragemStore } from '@/stores/garagem'
+
+const storeGaragem = useGaragemStore()
+
+const defaultMarca = {
+  id: null,
+  nome: null,
+  nacionalidade: null
+}
+const marca = ref({...defaultMarca})
+
+async function salvar() {
+  if (marca.value.id) {
+    await storeGaragem.editarMarca(marca.value);
+  } else {
+    await storeGaragem.adicionarMarca(marca.value)
+  }
+
+  marca.value = {...defaultMarca}
+}
+
+async function excluir(id) {
+  await storeGaragem.removerMarca(id)
+}
+
+onMounted(async () => {
+  await storeGaragem.buscarMarcas()
+})
+</script>
 
 <template>
   <section>
@@ -7,17 +37,25 @@
     <div class="form">
       <div class="input">
         <p>Nome</p>
-        <input type="text" />
+        <input type="text" v-model="marca.nome" />
       </div>
 
       <div class="input">
         <p>Nacionalidade</p>
-        <input type="text" />
+        <input type="text" v-model="marca.nacionalidade" />
       </div>
 
-      <button class="salvarButton">
-        Salvar
-      </button>
+      <button class="salvarButton" @click="salvar">Salvar</button>
+    </div>
+
+    <div class="list">
+      <div class="marca" v-for="item in storeGaragem.marcas" :key="item.id">
+        <p @click="marca = item">({{ item.id }}) - {{ item.nome }} - {{ item.nacionalidade }}</p>
+
+        <span @click="excluir(item.id)">
+          <i class="mdi mdi-close"></i>
+        </span>
+      </div>
     </div>
   </section>
 </template>
@@ -59,13 +97,40 @@ section {
 }
 
 .salvarButton {
-    background-color: #007BFF;
-    color: white;              
-    border: none;             
-    border-radius: 4px;      
-    padding: 10px 20px;        
-    font-size: 16px;         
-    cursor: pointer;      
-    display: inline-block;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.marca {
+  display: flex;
+  gap: 10px;
+  background-color: #007bff50;
+  padding: 5px 10px;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.marca p {
+  min-width: 140px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+}
+
+.marca span {
+  cursor: pointer;
 }
 </style>
