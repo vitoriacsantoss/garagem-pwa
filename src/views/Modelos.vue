@@ -83,7 +83,7 @@ onMounted(async () => {
 
     <div class="list">
       <div class="modelo" v-for="item in storeGaragem.modelos" :key="item.id">
-        <p @click="editar(item)">({{ item.id }}) - {{ item.nome }} - {{ item.marca.nome }}</p>
+        <p @click="editar(item)">({{ item.id }}) - {{ item.nome }} - {{ item.marca.nome }} - {{ item.categoria.descricao }}</p>
 
         <span @click="excluir(item.id)">
           <i class="mdi mdi-close"></i>
