@@ -22,6 +22,9 @@ async function salvar() {
 
 async function excluir(id) {
   await storeGaragem.removerCor(id)
+  if (id == cor.value.id) {
+    cor.value.id = null
+  }
 }
 
 onMounted(async () => {

@@ -22,6 +22,10 @@ async function salvar() {
 
 async function excluir(id) {
   await storeGaragem.removerAcessorio(id)
+  console.log(id, acessorio.value.id)
+  if (id == acessorio.value.id) {
+    acessorio.value.id = null
+  }
 }
 
 onMounted(async () => {

@@ -24,6 +24,9 @@ async function salvar() {
 
 async function excluir(id) {
   await storeGaragem.removerModelo(id)
+  if (id == modelo.value.id) {
+    modelo.value.id = null
+  }
 }
 
 async function editar(item) {

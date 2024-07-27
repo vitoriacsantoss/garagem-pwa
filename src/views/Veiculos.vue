@@ -31,6 +31,9 @@ async function salvar() {
 
 async function excluir(id) {
   await storeGaragem.removerVeiculo(id)
+  if (id == veiculo.value.id) {
+    veiculo.value.id = null
+  }
 }
 
 async function editar(item) {
@@ -109,6 +112,7 @@ onMounted(async () => {
 
     <div class="list">
       <div class="veiculo" v-for="item in storeGaragem.veiculos" :key="item.id">
+        <img :src="item?.foto_veiculo?.url" alt="" width="200px">
         <p @click="editar(item)">({{ item.id }}) - {{ item.modelo.nome }} - {{ item.preco }}</p>
 
         <span @click="excluir(item.id)">
